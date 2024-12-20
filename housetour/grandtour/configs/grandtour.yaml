@@ -1,0 +1,37 @@
+model:
+  arch: timechat
+  model_type: pretrain_llama_v2
+  freeze_vit: True
+  freeze_qformer: False
+  max_txt_len: 2048
+  end_sym: "</s>"
+  low_resource: False
+
+  frozen_llama_proj: False
+  frozen_video_Qformer: False
+
+  # QFormer
+  num_query_token: 32
+
+  vit_model: "ckpt/eva-vit-g/eva_vit_g.pth"
+  llama_model: "ckpt/Video-LLaMA-2-7B-Finetuned/llama-2-7b-chat-hf/"
+  q_former_model: "ckpt/instruct-blip/instruct_blip_vicuna7b_trimmed.pth"
+  # ckpt: "ckpt/timechat/TimeChat-7b/timechat_7b.pth"
+
+  fusion_head_layers: 2
+  max_frame_pos: 96
+  fusion_header_type: "seqTransf"
+
+  use_grad_checkpoint: True
+  lora: True
+  lora_r: 16
+  lora_alpha: 16
+  lora_inference_mode: False
+  qformer_text_input: False
+  window_size: 4
+  stride: 4
+
+  image_size: [512, 288]
+
+  pretrained: "results/pretrain_epoch_5_3.896_w8.pth"
+    
