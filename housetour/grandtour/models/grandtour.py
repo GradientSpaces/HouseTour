@@ -19,9 +19,6 @@ from grandtour.models.Qformer import BertConfig, BertLMHeadModel
 
 
 class GrandTour(Blip2Base):
-    """
-    BLIP2 GPT-LLAMA model.
-    """
 
     PRETRAINED_MODEL_CONFIG_DICT = {
         "pretrain_llama_v2": "configs/models/grandtour.yaml",
@@ -267,12 +264,37 @@ class GrandTour(Blip2Base):
         print('Loading Done!')
     
     def vit_to_cpu(self):
+        """
+        Moves the vision transformer (ViT) components to the CPU and converts their parameters to float precision.
+        This method transfers the `ln_vision` and `visual_encoder` components of the vision transformer model
+        from the current device (e.g., GPU) to the CPU. Additionally, it ensures that the parameters of these
+        components are converted to float precision.
+        Returns:
+            None
+        """
+
         self.ln_vision.to("cpu")
         self.ln_vision.float()
         self.visual_encoder.to("cpu")
         self.visual_encoder.float()
     
     def encode_videoQformer_visual(self, image):
+        """Encodes video frames using a two-stage BLIP2-style architecture with VideoQformer.
+        This function processes video frames through a visual encoder and two transformer stages:
+        1. A frame-level QFormer that processes individual frames
+        2. A video-level QFormer (Video-QFormer) that processes sequences of encoded frames
+        Args:
+            image (torch.Tensor): Input video tensor with shape (batch_size, channels, time_length, height, width)
+        Returns:
+            tuple:
+                - inputs_llama (torch.Tensor): Encoded video features projected to LLaMA space
+                - atts_llama (torch.Tensor): Attention mask for the encoded features
+        Details:
+            - First processes each frame through BLIP2's visual encoder and QFormer
+            - Adds temporal position embeddings to frame features (Opt.)
+            - Projects final features to LLaMA embedding space
+        """
+
         device = image.device
         # input shape b,c,t,h,w
         batch_size,_,time_length,_,_ = image.size()
@@ -349,6 +371,21 @@ class GrandTour(Blip2Base):
         return inputs_llama, atts_llama
     
     def prompt_wrap(self, img_embeds, atts_img, prompt):
+        """
+        Wraps image embeddings with prompt embeddings if a prompt is provided.
+        This function processes image embeddings by concatenating them with tokenized prompt embeddings
+        before and after the image embedding, based on the '<ImageHere>' marker in the prompt.
+        Args:
+            img_embeds (torch.Tensor): Image embeddings tensor.
+            atts_img (torch.Tensor): Image attention mask tensor.
+            prompt (str): Text prompt containing '<ImageHere>' marker to indicate image placement.
+                         If None or empty, returns original embeddings unchanged.
+        Returns:
+            tuple: A tuple containing:
+                - torch.Tensor: Combined embeddings (prompt + image if prompt provided, otherwise original image embeddings)
+                - torch.Tensor: Corresponding attention mask
+        """
+
         if prompt:
             batch_size = img_embeds.shape[0]
             # print(prompt)

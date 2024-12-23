@@ -12,7 +12,7 @@ os.environ['HF_HOME'] = cache_dir
 from transformers import AutoTokenizer
 import transformers
 
-access_token = "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"
+access_token = "ACCESS_TOKEN_HERE"
 
 pipeline = transformers.pipeline(
     "text-generation",
@@ -29,6 +29,18 @@ terminators = [
 
 
 def eval_q_and_a(question, pred, gt):
+    """
+    Evaluate the correctness of a predicted answer compared to a ground truth answer for a given question (on a score from 1 to 5).
+
+    Args:
+    - question (str): The question.
+    - pred (str): The predicted answer.
+    - gt (str): The ground truth answer.
+
+    Returns:
+    - json_object (dict): A dictionary containing the correctness score and an explanation.
+    """
+
     example_output = """
 {
     "explanation": "Reasons for the correctness",
@@ -87,6 +99,17 @@ Example output:
 
 
 def eval_q_and_a_bool(question, pred, gt):
+    """
+    Evaluate the correctness of a predicted answer compared to a ground truth answer for a given question (true or false).
+
+    Args:
+    - question (str): The question.
+    - pred (str): The predicted answer.
+    - gt (str): The ground truth answer.
+
+    Returns:
+    - json_object (dict): A dictionary containing the boolean correctness and an explanation.
+    """
     example_output ="""
 {
     'explanation' : 'Reasons for the correctness'
@@ -136,6 +159,7 @@ Example output:
     return None
 
 def eval_capt(pred, gt):
+    # TODO: Still to be made fully functional!
     example_output ="""
 {
     "reference_semantic_elements" : List[str],
@@ -189,6 +213,7 @@ Example Output:
 
 
 if __name__ == "__main__":        
+    ###Example Usage###
     data = []
     with jsonlines.open("eval_llava_next_qa.jsonl", "r") as f:
         for line in f.iter():

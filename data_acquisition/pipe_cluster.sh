@@ -17,6 +17,7 @@
 
 cd /scratch/users/atacelen/
 
+# Load necessary modules from the cluster
 ml purge
 ml load python/3.12.1
 ml load cuda/12.4.0
@@ -48,16 +49,21 @@ for (( i=$SLURM_ARRAY_TASK_ID; i<$SLURM_ARRAY_TASK_ID+2; i++ )); do
 
     mkdir -p Reconstructions3D/$name
     mkdir Reconstructions3D/$name/images
+    # Extract frames from the video
     ffmpeg -i $filename -vf "fps=15" Reconstructions3D/$name/images/frame_%04d.png
 
     cd transfer
 
+    # Extract keyframes from frames
     python3 keyframe_extraction.py --folder ../Reconstructions3D/$name
+    # Remove frames in the beginning and end of the video with outdoor scenes
     python3 blip_vqa.py --folder ../Reconstructions3D/$name
+    # Resize keyframes to 512x288 (for Mast3r)
     python3 resize_keyframes.py --folder ../Reconstructions3D/$name
 
     cd ..
 
+    # Extract image pairs using Vocabulary Tree Matching
     singularity exec pipe colmap feature_extractor --database_path Reconstructions3D/$name/database_vocab.db --image_path Reconstructions3D/$name/keyframes_resized/ --ImageReader.camera_model SIMPLE_RADIAL --ImageReader.single_camera 1 --SiftExtraction.use_gpu 0
     singularity exec --nv pipe colmap vocab_tree_matcher --database_path Reconstructions3D/$name/database_vocab.db --VocabTreeMatching.vocab_tree_path transfer/vocab_tree.bin --VocabTreeMatching.num_images 100 --VocabTreeMatching.num_nearest_neighbors 5 --SiftMatching.guided_matching 1
     
@@ -68,6 +74,7 @@ for (( i=$SLURM_ARRAY_TASK_ID; i<$SLURM_ARRAY_TASK_ID+2; i++ )); do
     
     cd mast3r
 
+    # Find two-view matches using Mast3r
     python3 match_keyframes_mast3r_vocab.py --folder ../../Reconstructions3D/$name
 
     cd ..
@@ -76,11 +83,13 @@ for (( i=$SLURM_ARRAY_TASK_ID; i<$SLURM_ARRAY_TASK_ID+2; i++ )); do
 
     cd ..
 
+    # Run COLMAP mapping
     singularity exec --nv pipe colmap exhaustive_matcher --database_path Reconstructions3D/$name/database.db --SiftMatching.guided_matching 1
     singularity exec --nv pipe colmap mapper --database_path Reconstructions3D/$name/database.db --image_path Reconstructions3D/$name/keyframes_resized/ --output_path Reconstructions3D/$name --Mapper.ba_refine_focal_length 1 --Mapper.num_threads 6
 
     cd transfer/dust3r
 
+    # Run Dust3R to generate dense point clouds from fixated camera poses
     python3 run.py --folder /scratch/users/atacelen/Reconstructions3D/$name 
 
     cd ../..

@@ -118,6 +118,26 @@ class Blip2Qformer(Blip2Base):
         self.max_txt_len = max_txt_len
 
     def forward(self, samples):
+        """
+        Forward pass for the BLIP-2 model performing image-text contrastive learning, matching, and captioning.
+        Args:
+            samples (dict): Input dictionary containing:
+                - image (torch.Tensor): Tensor of shape (batch_size, num_images, channels, width, height)
+                - text_input (list): List of text inputs 
+                - image_id (torch.Tensor, optional): Not necessary for pretraining, but required for finetuning on COCO
+        Returns:
+            BlipOutput: Named tuple containing:
+                - loss (torch.Tensor): Combined loss (itc + itm + lm)
+                - loss_itc (torch.Tensor): Image-text contrastive loss
+                - loss_itm (torch.Tensor): Image-text matching loss  
+                - loss_lm (torch.Tensor): Language modeling loss
+        The forward pass consists of:
+        1. Image and text encoding using visual encoder and Q-former
+        2. Image-text contrastive learning 
+        3. Image-text matching with hard negative mining
+        4. Image captioning using language modeling
+        """
+
         image = samples["image"]
         text = samples["text_input"]
 
