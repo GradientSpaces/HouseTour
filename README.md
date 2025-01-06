@@ -1,6 +1,6 @@
 # 📚 Master Thesis Code Repository: Touring Real Estates using Sparse Image Observations​
 
-<div style="display: flex; justify-content: center; align-items: center;">
+<div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
   <img src="./assets/recon_1.gif" style="width: 50%;">
 </div>
 
