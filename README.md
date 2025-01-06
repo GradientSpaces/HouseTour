@@ -2,7 +2,6 @@
 
 <div style="display: flex; justify-content: center; align-items: center;">
   <img src="./assets/recon_1.gif" style="width: 50%;">
-  <img src="./assets/recon_2.gif" style="width: 50%;">
 </div>
 
 
