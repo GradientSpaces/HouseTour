@@ -13,6 +13,7 @@ images = sorted(images)
 
 width, height = 512, 288    
 
+# We want to add each pixel coordinate as a keypoint since Mast3r is not a keypoint-based model
 x_indices, y_indices = np.meshgrid(np.arange(width), np.arange(height), indexing='ij')
 pixel_indices = np.stack([x_indices, y_indices], axis=-1).reshape(-1, 2).astype(np.float16)
 pixel_indices += 0.5
