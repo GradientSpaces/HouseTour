@@ -1,69 +1,128 @@
-# 📚 Master Thesis Code Repository: Touring Real Estates using Sparse Image Observations​
+<p align="center">
+  <h2 align="center"> HouseTour: A Virtual Real Estate A(I)gent </h2>
+  <p align="center">
+    <a>Ata Çelen</a><sup>1,2</sup>
+    ·
+    <a href="https://people.inf.ethz.ch/marc.pollefeys/">Marc Pollefeys</a><sup>1,3</sup>
+    ·
+    <a href="https://www.linkedin.com/in/d%C3%A1niel-bar%C3%A1th-3a489092/">Dániel Béla Baráth</a><sup>1,4</sup>
+    ·
+    <a href="https://ir0.github.io/">Iro Armeni</a><sup>2</sup>
+  </p>
+  <p align="center">
+    <sup>1</sup>ETH Zürich    <sup>2</sup>Stanford University    <sup>3</sup>Microsoft Spatial AI Lab    <sup>4</sup>HUN-REN SZTAKI
+  </p>
+  <h3 align="center">
 
-<div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
-  <img src="./assets/recon_1.gif" style="width: 50%;">
-</div>
+ [![arXiv](https://img.shields.io/badge/arXiv-blue?logo=arxiv&color=%23B31B1B)](https://placehold.co/600x400?text=Hello+World) 
+ [![ProjectPage](https://img.shields.io/badge/Project_Page-HouseTour-blue)](https://house-tour.github.io/)
+ [![Hugging Face (LCM) Space](https://img.shields.io/badge/🤗%20Hugging%20Face%20-Space-yellow)](https://placehold.co/600x400?text=Hello+World)
+ [![HouseTour Dataset](https://img.shields.io/badge/HouseTour-Dataset-orange)](https://placehold.co/600x400?text=Hello+World)
+ [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+ <div align="center"></div>
+</p>
+
+## Abstract
+We introduce **HouseTour**, a method for spatially-aware 3D camera trajectory and natural language summary generation from a collection of images depicting an existing 3D space. Unlike existing vision-language models (VLMs), which struggle with geometric reasoning, our approach generates smooth video trajectories via a diffusion process constrained by known camera poses and integrates this information into the VLM for 3D-grounded descriptions. We synthesize the final video using 3D Gaussian splatting to render novel views along the trajectory. To support this task, we present the HouseTour dataset, which includes over 1,200 house-tour videos with camera poses, 3D reconstructions, and real estate descriptions. Experiments demonstrate that incorporating 3D camera trajectories into the text generation process improves performance over methods handling each task independently. We evaluate both individual and end-to-end performance, introducing a new joint metric. Our work enables automated, professional-quality video creation for real estate and touristic applications without requiring specialized expertise or equipment.
+
+## ✨ Key Features
+- **Residual Diffuser** – diffusion-based planner that refines sparse poses into smooth, human-like camera paths. 
+- **Qwen2-VL-3D** – VLM adapter that fuses vision + language + 3D tokens for real-estate-style scene summaries.
+- **HouseTour Dataset** – >1 200 professionally filmed house-tour videos with 3D reconstructions & expert descriptions.
+
+## Table of Contents
+<ol>
+  <li><a href="#⚙️-system-and-hardware">⚙️ System and Hardware</a></li>
+  <li><a href="#🏠-housetour-dataset">🏠 HouseTour Dataset</a></li>
+  <li><a href="#🖥️-setup">🖥️ Setup</a></li>
+  <li><a href="#🏋️-training--inference">🏋️ Training & Inference</a></li>
+  <li><a href="#🙏-acknowledgements">🙏 Acknowledgements</a></li>
+  <li><a href="#📄-citation">📄 Citation</a></li>
+</ol>
 
 
-## 📝 Abstract
-> This repository contains the implementation, data, and tools developed for my master's thesis, **Touring Real Estates using Sparse Image Observations​**.  
-
-
-## 📂 Repository Structure
-
-### Cosmos Tokenizer
-The folder *cosmos_tokenizer* holds the code repository for the Cosmos Tokennizer + LLaMa model
+## ⚙️ System and Hardware
+The code has been tested on:
+```yaml
+Ubuntu: 22.04 LTS
+Python: 3.12.1
+CUDA: 12.4
+GPU: NVIDIA A100 SXM4 80GB
 ```
-├── cosmos_tokenizer/  # Cosmos Tokennizer + LLaMa model files
-├── autodq.py          # Script for the AutoDQ LLaMa-based evaluation 
-├── eval_capt.py       # Script for the Dense Video Captioning evaluation
-├── eval_qa.py         # Script for the Open VQA evaluation
-├── eval.py            # Script for manual evaluation
-├── train_tf.py        # Script for T/F training
-├── train_q_and_a.py   # Script for Open VQA training
-└── train.py           # Script for Dense Video Captioning training 
+
+## 🏠 HouseTour Dataset
+<p align="left">
+  <img src="assets/recon_1.gif" alt="HouseTour Demo" width="400">
+</p>
+
+The HouseTour dataset is available at **_TODO_**
+
+## 🖥️ Setup
+
+### Environment Setup
+```bash
+$ git clone https://github.com/GradientSpaces/HouseTour.git
+$ cd HouseTour
+
+# Create an environment
+$ conda create -n housetour python=3.12 -y
+$ conda activate housetour
+$ pip install -r requirements.txt
+
+# Install the local package 'diffuser'
+$ pip install -e .
 ```
 
-### Data Acquisition
-The folder *data_acquisition* holds the code repository for the Data Acquisition Pipeline
+### Downloading the Pretrained Models
+You can download the pretrained models from the following links: **_TODO_**
+
+## 🏋️ Training & Inference
+### Residual Diffuser
+
+To train the Residual Diffuser, you can use the following command:
+```bash
+python -m scripts.train_residual_diffuser
 ```
-├── singularity/                    # Cosmos Tokennizer + LLaMa model files
-    ├── colmap_n_glomap.def         # Singularity recipe for COLMAP and GLOMAP installation on the cluster
-    └── pipe.def                    # Singularity recipe for the Data Acquisition environment on the cluster
-├── anyloc_retrieval.py             # 'AnyLoc' based Image Retrieval (experimental)
-├── blip_vqa.py                     # Removal of outdoor frames with BLIP2 Visual Question Answering
-├── build_vocab_tree.py             # Building a custom Vocabulary Tree for Image Retrieval (experimental)
-├── database_matches_to_txt.py      # Helper script to write the retrieved image pairs to a .txt file
-├── match_keyframes_mast3r_vocab.py # Finding two-view correspondences with Mast3r
-├── pipe_cluster.sh                 # Bash script for Data Acquisition 
-├── resize_keyframes.py             # Resizing the keyframes for further processing
-├── run.py                          # Generating a Dense Point Cloud after COLMAP mapping with Dust3r
-└── write_keypoints_h5.py           # Helper script to write the keypoints to an H5 file
+The configuration file for the Residual Diffuser is located at `config/residual_diffuser.py`. You can modify the training parameters in this file.
+
+To run inference with the Residual Diffuser, use the following command:
+```bash
+python -m scripts.test_residual_diffuser
 ```
 
-### Datasets
-The folder *datasets* holds the textual data used for the T/F, Open VQA and Dense Multi-Image Captioning tasks
+### Qwen2-VL-3D
+
+1) To train the LoRA adapter on Qwen2-VL, you can use the following command:
+```bash
+python train_qwen2_vl.py \
+    --data_dir "path/to/dataset" \
+    --output-dir "training_checkpoints/lora_adapter"
 ```
-├── annotations_cleaned_v2.json     # The dataset used for Dense Multi-Image Captioning
-├── annotations_q_and_a.json        # The dataset used for Open VQA
-├── annotations_true_false.json     # The dataset used for T/F
-├── multi_image_pretrain_w8.json    # The dataset used for the Multi-Image pretraining (8 images) 
-└── multi_image_pretrain_w8.json    # The dataset used for the Multi-Image pretraining (16 images)
+2) To train the Qwen2-VL-3D model, you can use the following command:
+```bash
+python train_qwen2_vl_3d.py \
+    --lora_adapter_dir "path/to/lora_adapter" \
+    --data_dir "path/to/dataset" \
+    --diffuser_dir "./checkpoints/residual-diffuser" \
+    --traj_data "path/to/trajectories.jsonl"
 ```
 
-### QFormer + Sliding Window Video-QFormer & Multi-Image QFormer + LLaMa
-The folder *housetour* holds the code repository for the QFormer + Sliding Window Video-QFormer & Multi-Image QFormer + LLaMa models
+To run inference with the Qwen2-VL-3D model on the evaluation set, use the following command:
+```bash
+python eval_qwen2_vl_3d.py \
+    --model-path "./checkpoints/qwen2-vl-3d" \
+    --traj-path "./checkpoints/residual-diffuser" \
+    --traj-data "path/to/trajectories.jsonl"
 ```
-├── grandtour/                  # QFormer + Sliding Window Video-QFormer & Multi-Image QFormer + LLaMa model files
-├── train_scripts/              
-    ├── pretrain.py             # First Stage Pretraining Script for the Multi-Image QFormer
-    ├── train_blip2_llama.py    # Second Stage LLM training Script for the Multi-Image QFormer
-    ├── train_captioning.py     # Second Stage LLM training Script for the Multi-Image QFormer
-    ├── train_dist_multi_n.py   # Multi-node parallel model training script
-    ├── train_dist_one_n.py     # Single-node parallel model training script
-    ├── train_full.py           # Training simulatenously on the T/F + Open VQA + Captioning datasets
-    ├── train_q_and_a.py        # Training Script for Open VQA with QF+SWV-QF
-    ├── train_true_or_false.py  # Training Script for T/F with QF+SWV-QF
-    └── train.py                # Training Script for Dense Multi-Image Captioning with QF+SWV-QF
-└── eval_scripts/               # Evaluation Scripts for the T/F, Open VQA and Dense Multi-Image Captioning tasks
+
+## Contact
+For any questions or issues, please open an issue on the GitHub repository or contact us via email: ata.celen@inf.ethz.ch
+
+## 🙏 Acknowledgements
+We thank the authors from [Diffuser](https://github.com/jannerm/diffuser) and [Qwen2-VL](https://huggingface.co/Qwen/Qwen2-VL-7B-Instruct) for open-sourcing their codebases.
+
+## 📄 Citation
+If you use this code or the dataset in your research, please cite our paper:
+**_TODO_**
+```bibtex
 ```
