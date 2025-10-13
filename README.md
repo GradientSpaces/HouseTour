@@ -133,6 +133,11 @@ We thank the authors from [Diffuser](https://github.com/jannerm/diffuser) and [Q
 
 ## 📄 Citation
 If you use this code or the dataset in your research, please cite our paper:
-**_TODO_**
 ```bibtex
+@inproceedings{çelen2025housetour,
+  title     = {HouseTour: A Virtual Real Estate A(I)gent},
+  author    = {Çelen, Ata and Pollefeys, Marc and Baráth, Dániel Béla and Armeni, Iro},
+  booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
+  year      = {2025}
+}
 ```
