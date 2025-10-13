@@ -43,6 +43,7 @@ class Trainer(object):
         self,
         diffusion_model,
         dataset,
+        data_dir,
         renderer,
         ema_decay=0.995,
         train_batch_size=32,
@@ -80,11 +81,11 @@ class Trainer(object):
         dataset_size = len(self.dataset)
 
         # Read the indices from the .txt file
-        with open(os.path.join(results_folder, 'train_indices.txt'), 'r') as f:
+        with open(os.path.join(data_dir, 'train_indices.txt'), 'r') as f:
             self.train_indices = f.read()
             self.train_indices = [int(i) for i in self.train_indices.split('\n') if i]
-        
-        with open(os.path.join(results_folder, 'val_indices.txt'), 'r') as f:
+
+        with open(os.path.join(data_dir, 'test_indices.txt'), 'r') as f:
             self.val_indices = f.read()
             self.val_indices = [int(i) for i in self.val_indices.split('\n') if i]
 
@@ -136,7 +137,7 @@ class Trainer(object):
         with open(os.path.join(self.logdir, 'train_indices.txt'), 'w') as f:
             for idx in self.train_indices:
                 f.write(f"{idx}\n")
-        with open(os.path.join(self.logdir, 'val_indices.txt'), 'w') as f:
+        with open(os.path.join(self.logdir, 'test_indices.txt'), 'w') as f:
             for idx in self.val_indices:
                 f.write(f"{idx}\n")
         

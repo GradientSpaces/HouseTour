@@ -57,10 +57,37 @@ GPU: NVIDIA A100 SXM4 80GB
 
 ## 🏠 HouseTour Dataset
 <p align="left">
-  <img src="assets/recon_1.gif" alt="HouseTour Demo" width="400">
+  <img src="assets/recon_gallery.gif" alt="HouseTour Demo" width="600">
+  <br>
+    <em> A gallery of reconstructed 3D scenes from the HouseTour dataset</em>
+</p>
+<p align="left">
+  <img src="assets/rgb_pcd_depth.gif" alt="HouseTour Demo" width="1200" style="animation: loop infinite;">
+  <br>
+    <em> A side-by-side comparison of RGB images, point cloud renderings and depth maps</em>
 </p>
 
-The HouseTour dataset is available at **_TODO_**
+### 📦 Overview
+
+The data is sourced from **professional real-estate agencies**, and all rights for **sharing and research use** have been secured.  
+Our dataset offers a comprehensive resource for learning cross-modal representations of real-world indoor environments.
+
+---
+
+### 📊 Dataset Composition
+
+- **1,639** real-estate tour videos  
+  *(apartments, condos, multi-storey houses)*  
+- **1,298** transcribed videos  
+  with **real-estate–oriented textual descriptions**  
+- **878** reconstructed **3D scenes**  
+  *(dense point clouds + camera trajectories)*  
+- **Professionally captured** smooth camera trajectories  
+  emulating natural **human navigation**  
+- **Rich textual descriptions** emphasizing  
+  *layout, architectural features, materials, and ambiance* 
+- **Privacy-filtered**: all **personally identifiable or sensitive information** removed  
+
 
 ## 🖥️ Setup
 
@@ -126,7 +153,9 @@ python eval_qwen2_vl_3d.py \
 ```
 
 ## Contact
-For any questions or issues, please open an issue on the GitHub repository or contact us via email: ata.celen@inf.ethz.ch
+For any questions or issues, please open an issue on the GitHub repository or contact us via email: 
+
+📧 [ata.celen@inf.ethz.ch](mailto:ata.celen@inf.ethz.ch)
 
 ## 🙏 Acknowledgements
 We thank the authors from [Diffuser](https://github.com/jannerm/diffuser) and [Qwen2-VL](https://huggingface.co/Qwen/Qwen2-VL-7B-Instruct) for open-sourcing their codebases.

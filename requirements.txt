@@ -62,7 +62,6 @@ pydantic==2.11.7
 pydantic_core==2.33.2
 pyparsing==3.2.3
 python-dateutil==2.9.0.post0
-pytorch3d @ git+https://github.com/facebookresearch/pytorch3d.git@75ebeeaea0908c5527e7b1e305fbc7681382db47
 pytz==2025.2
 PyYAML==6.0.2
 qwen-vl-utils==0.0.11
@@ -77,9 +76,6 @@ six==1.17.0
 smmap==5.0.2
 sympy==1.13.1
 tokenizers==0.21.1
-torch==2.6.0+cu124
-torchaudio==2.6.0+cu124
-torchvision==0.21.0+cu124
 tqdm==4.67.1
 transformers==4.52.4
 triton==3.2.0

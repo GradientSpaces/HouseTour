@@ -26,19 +26,19 @@ args = Parser().parse_args('plan')
 
 #---------------------------------- loading ----------------------------------#
 
-path_to_traj = os.path.join(args.logbase, args.dataset, "diffusion","H384_T16")
 
-model_config = utils.load_config(path_to_traj, 'model_config.pkl')
-diffusion_config = utils.load_config(path_to_traj, 'diffusion_config.pkl')
-trainer_config = utils.load_config(path_to_traj, 'trainer_config.pkl')
+model_config = utils.load_config(args.diffusion_loadpath, 'model_config.pkl')
+diffusion_config = utils.load_config(args.diffusion_loadpath, 'diffusion_config.pkl')
+trainer_config = utils.load_config(args.diffusion_loadpath, 'trainer_config.pkl')
 
 dataset = CameraTrajectoriesDataset(args.dataset_path)
 model = model_config()
-diffusion = diffusion_config(model)
-trainer = trainer_config(diffusion, dataset, renderer=None)
-trainer.logdir = path_to_traj
+diffusion = diffusion_config(model, scales_path=args.dataset_scales_path)
 
-epoch = utils.get_latest_epoch(path_to_traj)
+trainer = trainer_config(diffusion, dataset, data_dir=args.data_dir, renderer=None)
+trainer.logdir = args.diffusion_loadpath
+
+epoch = utils.get_latest_epoch(args.diffusion_loadpath)
 print(f'\n[ utils/serialization ] Loading model epoch: {epoch}\n')
 trainer.load(epoch)
 
@@ -48,7 +48,7 @@ diffusion = trainer.model
 #---------------------------------- test ----------------------------------#
 
 # read test set
-with open(path_to_traj + '/test_indices.txt', 'r') as f:
+with open(os.path.join(args.data_dir, "test_indices.txt"), 'r') as f:
     val_indices = f.read()
     val_indices = [int(i) for i in val_indices.split('\n') if i]
 

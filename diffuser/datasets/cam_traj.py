@@ -11,6 +11,9 @@ Batch = namedtuple('Batch', 'trajectories conditions scene_id scale')
 class CameraTrajectoriesDataset(torch.utils.data.Dataset):
     def __init__(self, path_to_traj):
         
+        if "PATH/TO" in path_to_traj:
+            raise ValueError("Please set the path_to_traj variable to the path of your trajectory file.")
+
         with open(path_to_traj, 'r') as f:
             self.data = [json.loads(line) for line in f]
 

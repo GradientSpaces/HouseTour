@@ -1,4 +1,5 @@
 import socket
+import os
 
 from diffuser.utils import watch
 
@@ -24,6 +25,10 @@ plan_args_to_watch = [
     ('conditional', 'cond'),
 ]
 
+DATA_DIR = 'data/'
+DATASET_PATH = 'trajectories.jsonl'
+DATASET_SCALES_PATH = 'scene_scale.json'
+
 base = {
 
     'diffusion': {
@@ -40,8 +45,9 @@ base = {
         'renderer': None,
 
         ## dataset
-        'dataset_path' : "/scratch/users/atacelen/diffuser/trajectories.jsonl",
-        'dataset_scales_path' : "/scratch/users/atacelen/diffuser/scene_scale.json",
+        'data_dir': DATA_DIR,
+        'dataset_path' : os.path.join(DATA_DIR, DATASET_PATH),
+        'dataset_scales_path' : os.path.join(DATA_DIR, DATASET_SCALES_PATH),
         'loader': None,
         'termination_penalty': None,
         'normalizer': 'LimitsNormalizer',
@@ -83,19 +89,20 @@ base = {
         'normalizer': 'LimitsNormalizer',
 
         ## dataset
-        'dataset_path' : "/scratch/users/atacelen/diffuser/trajectories.jsonl",
-        
+        'data_dir': DATA_DIR,
+        'dataset_path' : os.path.join(DATA_DIR, DATASET_PATH),
+        'dataset_scales_path' : os.path.join(DATA_DIR, DATASET_SCALES_PATH),
 
         ## serialization
         'vis_freq': 10,
         'logbase': 'training_checkpoints',
-        'prefix': 'plans/release',
         'exp_name': watch(plan_args_to_watch),
         'suffix': '0',
         'conditional': False,
 
         ## loading
-        'diffusion_loadpath': 'f:diffusion/H{horizon}_T{n_diffusion_steps}',
+        # 'diffusion_loadpath': 'f:{logbase}/residual_diffuser/diffusion/H{horizon}_T{n_diffusion_steps}',
+        'diffusion_loadpath': 'f:checkpoints/residual-diffuser/',
         'diffusion_epoch': 'latest',
     },
 

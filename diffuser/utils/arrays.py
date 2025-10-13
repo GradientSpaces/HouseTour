@@ -62,7 +62,6 @@ def batchify(batch):
 		val = getattr(batch, field)
 		val = apply_dict(fn, val) if type(val) is dict else fn(val)
 		batched_vals.append(val)
-		print("Done!")
 	return type(batch)(*batched_vals)
 
 def apply_dict(fn, d, *args, **kwargs):
