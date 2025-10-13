@@ -72,6 +72,11 @@ $ cd HouseTour
 # Create an environment
 $ conda create -n housetour python=3.12 -y
 $ conda activate housetour
+
+# Dependencies
+$ pip install torch==2.6.0 torchvision==0.21.0 --index-url https://download.pytorch.org/whl/cu124
+$ pip install -U pip setuptools wheel
+$ pip install git+https://github.com/facebookresearch/pytorch3d.git@75ebeeaea0908c5527e7b1e305fbc7681382db47
 $ pip install -r requirements.txt
 
 # Install the local package 'diffuser'
