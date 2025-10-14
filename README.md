@@ -56,12 +56,12 @@ GPU: NVIDIA A100 SXM4 80GB
 ```
 
 ## 🏠 HouseTour Dataset
-<p align="left">
+<p align="middle">
   <img src="assets/recon_gallery.gif" alt="HouseTour Demo" width="600">
   <br>
     <em> A gallery of reconstructed 3D scenes from the HouseTour dataset</em>
 </p>
-<p align="left">
+<p align="middle">
   <img src="assets/rgb_pcd_depth.gif" alt="HouseTour Demo" width="1200" style="animation: loop infinite;">
   <br>
     <em> A side-by-side comparison of RGB images, point cloud renderings and depth maps</em>
