@@ -17,7 +17,7 @@
  [![arXiv](https://img.shields.io/badge/arXiv-blue?logo=arxiv&color=%23B31B1B)](https://placehold.co/600x400?text=To+Be+Published...) 
  [![ProjectPage](https://img.shields.io/badge/Project_Page-HouseTour-blue)](https://house-tour.github.io/)
  [![Hugging Face (LCM) Space](https://img.shields.io/badge/HuggingFace-Model-orange?logo=huggingface)](https://huggingface.co/gradient-spaces/HouseTour)
- [![HouseTour Dataset](https://img.shields.io/badge/HouseTour-Dataset-orange)](https://placehold.co/600x400?text=To+Be+Published...))
+ [![HouseTour Dataset](https://img.shields.io/badge/HouseTour-Dataset-orange)](https://placehold.co/600x400?text=To+Be+Published...)
  [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
  <div align="center"></div>
 </p>
