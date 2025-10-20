@@ -9,6 +9,7 @@
     ·
     <a href="https://ir0.github.io/">Iro Armeni</a><sup>2</sup>
   </p>
+  <p align="center"> <strong>International Conference on Computer Vision (ICCV) 2025</strong></p>
   <p align="center">
     <sup>1</sup>ETH Zürich    <sup>2</sup>Stanford University    <sup>3</sup>Microsoft Spatial AI Lab    <sup>4</sup>HUN-REN SZTAKI
   </p>
