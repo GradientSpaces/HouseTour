@@ -111,7 +111,20 @@ $ pip install -e .
 ```
 
 ### Downloading the Pretrained Models
-You can download the pretrained models from the following links: **_TODO_**
+You can download the pretrained models from the following link:  
+**[gradient-spaces/HouseTour](https://huggingface.co/gradient-spaces/HouseTour)**
+
+You can use the Hugging Face `transformers` library to automatically download and load the weights into `./checkpoints/`:
+
+```python
+from huggingface_hub import snapshot_download
+
+model_name = "gradient-spaces/HouseTour"
+local_dir = "./checkpoints/"
+
+snapshot_download(repo_id=model_name, local_dir=local_dir)
+```
+
 
 ## 🏋️ Training & Inference
 ### Residual Diffuser
